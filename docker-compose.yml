@@ -1,0 +1,54 @@
+version: "3.1"
+services:
+  nginx:
+    image: nginx:1.23.2
+    ports:
+      - "80:80"
+    networks:
+      net:
+        aliases:
+          - test.reslocal
+    volumes:
+      - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
+      - "./nginx/index.html:/usr/share/nginx/html/index.html"
+
+  glpi:
+    build: ./build/glpi
+    networks:
+      net:
+        aliases:
+          - glpi.test.reslocal
+    volumes:
+      - "glpi-files:/var/lib/glpi"
+      - "glpi-config:/etc/glpi"
+      - "glpi-logs:/var/log/glpi"
+
+  mariadb:
+    image: mariadb:10.10.2
+    environment:
+      MARIADB_ROOT_PASSWORD: pass
+      MARIADB_USER: nino
+      MARIADB_PASSWORD: pass
+      MARIADB_DATABASE: glpidata
+    networks:
+      net:
+        aliases:
+          - db.test.reslocal
+    volumes:
+      - "mariadb:/var/lib/mysql"
+
+  adminer:
+    image: adminer:4.8.1
+    networks:
+      net:
+        aliases:
+          - adminer.test.reslocal
+
+networks:
+  net:
+
+volumes:
+  mariadb:
+  glpi-config:
+  glpi-files:
+  glpi-logs:
