@@ -26,9 +26,9 @@ services:
   mariadb:
     image: mariadb:10.10.2
     environment:
-      MARIADB_ROOT_PASSWORD: pass
-      MARIADB_USER: nino
-      MARIADB_PASSWORD: pass
+      MARIADB_ROOT_PASSWORD: password
+      MARIADB_USER: dbuser
+      MARIADB_PASSWORD: password
       MARIADB_DATABASE: glpidata
     networks:
       net:
