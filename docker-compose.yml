@@ -19,9 +19,11 @@ services:
         aliases:
           - glpi.test.reslocal
     volumes:
+      - "glpi-install:/var/www/html/glpi/install"
       - "glpi-files:/var/lib/glpi"
       - "glpi-config:/etc/glpi"
       - "glpi-logs:/var/log/glpi"
+      - "glpi-marketplace:/var/www/html/glpi/marketplace"
 
   mariadb:
     image: mariadb:10.10.2
@@ -49,6 +51,8 @@ networks:
 
 volumes:
   mariadb:
+  glpi-install:
   glpi-config:
   glpi-files:
   glpi-logs:
+  glpi-marketplace:
