@@ -2,11 +2,13 @@ FROM php:8.1-apache-bullseye
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
-# Ajouter des extensions ici
 RUN chmod +x /usr/local/bin/install-php-extensions \
 	&& install-php-extensions gd xdebug mysqli intl
+	
+# Ajoutez des extensions ici
+RUN install-php-extensions zip bz2
 
-# Changer la version de glpi ici
+# Changez la version de glpi ici
 ENV VERSION=10.0.6
 
 ADD https://github.com/glpi-project/glpi/releases/download/$VERSION/glpi-$VERSION.tgz .
