@@ -71,6 +71,13 @@ Voici les commandes que vous utiliserez sans doute le plus pour ce projet.
 Vous pouvez en trouver d'autres [ici](https://docs.docker.com/engine/reference/commandline/cli/).
 
 ## Configuration du projet
+### Fichiers de GLPI
+Tous les fichiers de configuration de GLPI se trouvent dans `build/glpi`
+* `Dockerfile` décrit à docker la manière de construire le conteneur GLPI.
+* `downstream.php` permet de définir un dossier alternatif pour la config de GLPI dans le conteneur.
+* `glpi.ini` fichier de configuration de PHP dans le conteneur GLPI.
+* `local_define.php` permet de définir des dossier alternatifs pour les fichiers et logs de GLPI dans le conteneur.
+* `vh.conf` défini un hôte virtuel apache pour GLPI dans le conteneur.
 ### Configuration des conteneurs
 Les conteneurs sont configurés via le fichier `docker-compose.yml`. Le fichier définit 3 conteneurs en plus de celui de GLPI.
 * `nginx` sert de reverse proxy pour donner l'accès aux autres services. Son fichier de configuration ainsi que la page d'accueil se situent dans le dossier `nginx` à la racine du projet.
@@ -102,7 +109,14 @@ $ docker exec -it <id> rm ./install/install.php
 
 Pour mettre à jouer les conteneurs il suffit simplement d'actualiser la valeur de leur version dans le champ `image` du fichier `docker-compose.yml`. Vous pouvez consulter les nouvelles versions disponibles sur [Docker Hub](https://hub.docker.com/) dans la section `Tags` d'une image.
 
-Pour le conteneur GLPI c'est un peu différent. Celui-ci utilisant une image locale, il faut supprimer le volume `glpi-install` puis se rendre dans le dossier `/build/glpi/` et modifier la version de GLPI dans le fichier `Dockerfile`.
+Pour le conteneur GLPI c'est un peu différent. Celui-ci utilisant une image locale, il faut d'abord supprimer le volume `glpi-install`.
+```
+# Trouver le nom exact du volume
+docker volume ls
+# Supprimer le volume
+docker volume rm XXX_glpi-install
+```
+Ensuite, rendez vous dans le dossier `/build/glpi/` et modifiez la version de GLPI dans le fichier `Dockerfile`.
 ```
 # Changez la version de glpi ici
 ENV VERSION=XX.XX.XX
